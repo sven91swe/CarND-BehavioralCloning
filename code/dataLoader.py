@@ -1,3 +1,9 @@
+"""
+This file reads the file names and angles for several images from several different manual runs in the simulator.
+
+It does also define the generators used when training and validating the neural network.
+"""
+
 import os
 import csv
 import sklearn
@@ -6,7 +12,6 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 
 import config
-
 
 """Code for reading the images and csv for the different runs.
 They are saved in different folder in the following structure in order to allow me to
@@ -44,7 +49,7 @@ for difficulty in config.difficulty:
                     right = line[2]
                     angle = float(line[3])
 
-                    """Storing center, left, right and flipped versions of them separatly in order
+                    """Storing center, left, right and flipped versions of them separately in order
                     to draw between them independently while making training / validation batches."""
                     images.append({
                         'image': center,
@@ -99,10 +104,8 @@ def generator(imageInput, batch_size = 32):
 
             yield sklearn.utils.shuffle(X_train, y_train)
 
-train_images, validation_images = train_test_split(images, test_size=0.2)
+train_images, validation_images = train_test_split(images,
+                                                   test_size=config.portionOfImagesForValidation)
 
 trainingGenerator = generator(train_images, batch_size=config.batchSize)
 validationGenerator = generator(validation_images, batch_size=config.batchSize)
-
-
-
