@@ -109,3 +109,41 @@ train_images, validation_images = train_test_split(images,
 
 trainingGenerator = generator(train_images, batch_size=config.batchSize)
 validationGenerator = generator(validation_images, batch_size=config.batchSize)
+
+if __name__ == '__main__':
+    listOfAllAngles = []
+
+    for image in images:
+        listOfAllAngles.append(image['angle'])
+
+    print(len(listOfAllAngles))
+
+    import matplotlib
+    matplotlib.use('Agg')
+
+    import numpy as np
+    import matplotlib.mlab as mlab
+    import matplotlib.pyplot as plt
+
+    # the histogram of the data
+    n, bins, patches = plt.hist(listOfAllAngles, 50, facecolor='green', alpha=0.75)
+
+    plt.xlabel('Angles')
+    plt.ylabel('Number of occurrences')
+    plt.grid(True)
+
+    plt.savefig("../writeup/histogram.png")
+
+    left = cv2.imread("../writeup/left.jpg")
+    center = cv2.imread("../writeup/center.jpg")
+    right = cv2.imread("../writeup/right.jpg")
+
+    left_crop = left[ 70: -24, :, :]
+    center_crop = center[ 70: -24, :, :]
+    right_crop = right[ 70: -24, :, :]
+
+    cv2.imwrite("../writeup/left_crop.jpg", left_crop)
+    cv2.imwrite("../writeup/center_crop.jpg", center_crop)
+    cv2.imwrite("../writeup/right_crop.jpg", right_crop)
+
+
