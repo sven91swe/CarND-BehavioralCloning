@@ -4,6 +4,9 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}
+
 \author{Sven Eriksson}
 \title{Writeup for Behavioral Cloning project \\ \large{Part of Udacity self driving car nanodegree}}
 
@@ -108,7 +111,65 @@ At the end of the process, the vehicle is able to drive autonomously around the 
 
 I focused on driving somewhat in the center of the road during all runs and used a adjustment angle images from the right and left camera. There adjustment angles were tuned in such a way so that the network would learn to steer towards the middle should it ever see a similar image.
 
-For each image I created a flipped copy by the time of loading it. The flipped and unflipped images were independntly picked for training and validation and for different batches. When creating a flipped copy of an image I also created a flipped copy of the recorded angle, with our without adjustment angle depending on the which camera that took the image.
+For a visualization of the raw images given to the network see figure \ref{fig:images}. The network does then crop the images in a way that can be seen in figure \ref{fig:images_crop}.
+
+For each image I created a flipped copy by the time of loading it. The flipped and unflipped images were independntly picked for training and validation and for different batches. When creating a flipped copy of an image I also created a flipped copy of the recorded angle, with our without adjustment angle depending on the which camera that took the image. The distribution of angles of this augmented dataset can be seen in figure \ref{histogram}.
+
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{left.jpg}
+        \caption{Image from the left 'camera'.}
+        \label{fig:left}
+    \end{subfigure}
+    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+      %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{center.jpg}
+        \caption{Image from the center 'camera'.}
+        \label{fig:center}
+    \end{subfigure}
+    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+    %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{right.jpg}
+        \caption{Image from the right 'camera'.}
+        \label{fig:right}
+    \end{subfigure}
+    \caption{Raw images from the 3 'cameras'. All are 160 by 320 pixels.}\label{fig:images}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{left_crop.jpg}
+        \caption{Image from the left 'camera'.}
+        \label{fig:left_crop}
+    \end{subfigure}
+    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+      %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{center_crop.jpg}
+        \caption{Image from the center 'camera'.}
+        \label{fig:center_crop}
+    \end{subfigure}
+    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+    %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{right_crop.jpg}
+        \caption{Image from the right 'camera'.}
+        \label{fig:right_crop}
+    \end{subfigure}
+    \caption{Cropped images from the 3 'cameras'. All are 66 by 320 pixels.}\label{fig:images_crop}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=1]{histogram.png}
+	\caption{Histogram of the distrubition of angles in my augmented dataset. It is symmetrical due to how it was created with flipped images.}
+\label{histogram}
+\end{figure}
 
 When the model failed to drive as intended I gathered more of the same kind of data and also tuned to adjustment angle to teach the network to stay towards the middle.
 
